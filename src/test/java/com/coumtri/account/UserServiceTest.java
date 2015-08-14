@@ -6,33 +6,50 @@ import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
+import com.coumtri.repositories.AccountRepository;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.Before;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.util.ReflectionUtils;
 
 @RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(locations={"classpath:/application-context.xml"})
 public class UserServiceTest {
 
-	@InjectMocks
-	private UserService userService = new UserService();
+	private UserService test;
 
 	@Mock
 	private AccountRepository accountRepositoryMock;
 
+    @Mock
+	private PasswordEncoder passwordEncoder;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
+
+	@Before
+	public void setUp() {
+        test = new UserService();
+        ReflectionTestUtils.setField(test, "passwordEncoder", passwordEncoder);
+        ReflectionTestUtils.setField(test, "accountRepository", accountRepositoryMock);
+	}
 
 	@Test
 	public void shouldInitializeWithTwoDemoUsers() {
 		// act
-		userService.initialize();
+		test.initialize();
 		// assert
 		verify(accountRepositoryMock, times(2)).save(any(Account.class));
 	}
@@ -45,7 +62,7 @@ public class UserServiceTest {
 
 		when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(null);
 		// act
-		userService.loadUserByUsername("user@example.com");
+		test.loadUserByUsername("user@example.com");
 	}
 
 	@Test
@@ -55,7 +72,7 @@ public class UserServiceTest {
 		when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
 
 		// act
-		UserDetails userDetails = userService.loadUserByUsername("user@example.com");
+		UserDetails userDetails = test.loadUserByUsername("user@example.com");
 
 		// assert
 		assertThat(demoUser.getEmail()).isEqualTo(userDetails.getUsername());

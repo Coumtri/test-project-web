@@ -7,7 +7,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "account")
-@NamedQuery(name = Account.FIND_BY_EMAIL, query = "select a from Account a where a.email = :email")
 public class Account implements java.io.Serializable {
 
 	public static final String FIND_BY_EMAIL = "Account.findByEmail";
@@ -18,6 +17,9 @@ public class Account implements java.io.Serializable {
 
 	@Column(unique = true)
 	private String email;
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "account", cascade = CascadeType.ALL)
+	private Application application;
 	
 	@JsonIgnore
 	private String password;
@@ -60,5 +62,13 @@ public class Account implements java.io.Serializable {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 }

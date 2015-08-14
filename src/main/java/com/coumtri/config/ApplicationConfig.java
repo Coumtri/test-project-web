@@ -1,19 +1,21 @@
 package com.coumtri.config;
 
-import static org.springframework.context.annotation.ComponentScan.Filter;
-
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Controller;
-
-import com.coumtri.Application;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
-@ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({Controller.class, Configuration.class}))
+@ComponentScan("com.coumtri")
 class ApplicationConfig {
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new StandardPasswordEncoder();
+	}
 	
 	@Bean
 	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {

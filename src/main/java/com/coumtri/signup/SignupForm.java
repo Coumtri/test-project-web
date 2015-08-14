@@ -1,5 +1,7 @@
 package com.coumtri.signup;
 
+import com.coumtri.account.Application;
+import com.coumtri.home.form.ApplicationVersion;
 import org.hibernate.validator.constraints.*;
 
 import com.coumtri.account.Account;
@@ -33,6 +35,10 @@ public class SignupForm {
 	}
 
 	public Account createAccount() {
-        return new Account(getEmail(), getPassword(), "ROLE_USER");
+		Account account = new Account(getEmail(), getPassword(), "ROLE_USER");
+		Application application = new Application(account);
+		application.setVersion(ApplicationVersion.DEMO);
+		account.setApplication(application);
+        return account;
 	}
 }

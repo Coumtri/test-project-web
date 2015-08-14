@@ -2,6 +2,7 @@ package com.coumtri.signup;
 
 import javax.validation.Valid;
 
+import com.coumtri.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

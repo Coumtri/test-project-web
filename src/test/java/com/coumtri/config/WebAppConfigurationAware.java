@@ -1,5 +1,7 @@
 package com.coumtri.config;
 
+import com.coumtri.account.UserService;
+import com.coumtri.repositories.AccountRepository;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,13 +18,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
-@ContextConfiguration(classes = {
-        ApplicationConfig.class,
-        EmbeddedDataSourceConfig.class,
-        JpaConfig.class,
-        NoCsrfSecurityConfig.class,
-        WebMvcConfig.class
-})
+@ContextConfiguration(locations={"classpath:/application-context-test.xml"})
 public abstract class WebAppConfigurationAware {
 
     @Inject

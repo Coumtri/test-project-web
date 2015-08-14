@@ -2,6 +2,7 @@ package com.coumtri.account;
 
 import java.security.Principal;
 
+import com.coumtri.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Secured("ROLE_USER")
 class AccountController {
 
+    @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
