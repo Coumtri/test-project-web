@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import com.coumtri.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -20,9 +21,9 @@ public class SignupController {
 
 	@Autowired
 	private AccountRepository accountRepository;
-	
+
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	@RequestMapping(value = "signup")
 	public String signup(Model model) {

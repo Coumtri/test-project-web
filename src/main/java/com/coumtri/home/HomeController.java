@@ -3,10 +3,12 @@ package com.coumtri.home;
 import java.security.Principal;
 import java.util.List;
 
+import com.coumtri.account.IUserService;
 import com.coumtri.account.UserService;
 import com.coumtri.home.form.UserInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Principal principal) {

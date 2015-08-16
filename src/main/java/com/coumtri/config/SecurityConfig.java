@@ -14,25 +14,26 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 @Configuration
 @EnableWebMvcSecurity
-@Order(2)
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserService userService;
+    @Bean
+    public UserDetailsService userService() {
+        return new UserService();
+    }
 
     @Bean
     public TokenBasedRememberMeServices rememberMeServices() {
-        return new TokenBasedRememberMeServices("remember-me-key", userService);
+        return new TokenBasedRememberMeServices("remember-me-key", userService());
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .eraseCredentials(true)
-            .userDetailsService(userService)
+            .userDetailsService(userService())
             .passwordEncoder(passwordEncoder);
     }
 

@@ -1,5 +1,8 @@
 package com.coumtri.config;
 
+import com.coumtri.account.UserService;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -39,4 +42,15 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         registration.setInitParameter("defaultHtmlEscape", "true");
         registration.setInitParameter("spring.profiles.active", "default");
     }
+
+    // Source : http://stackoverflow.com/questions/18047539/how-can-implement-abstractannotationconfigdispatcherservletinitializer-for-java
+    /*@Override
+    public void onStartup(ServletContext servletContext)
+            throws ServletException {
+        XmlWebApplicationContext root = new XmlWebApplicationContext();
+        root.setConfigLocation("/WEB-INF/application-context.xml");
+        servletContext.addListener(new ContextLoaderListener(root));
+        //super.onStartup(servletContext);
+    }*/
+
 }

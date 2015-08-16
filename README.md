@@ -19,6 +19,10 @@ mvn test tomcat7:run
 OR 
 java -jar target/dependency/webapp-runner.jar target/*.war
 
+Remote debugging
+-----------------
+mvnDebug clean tomcat7:run-war
+
 Cloud execution
 ----------------
 https://powerful-temple-3764.herokuapp.com/
