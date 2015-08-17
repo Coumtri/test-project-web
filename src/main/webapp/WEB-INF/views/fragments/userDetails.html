@@ -6,10 +6,18 @@
 <body>
 <!-- Source : http://www.designchemical.com/blog/index.php/jquery/simple-tabs-with-ajax-and-jquery/ -->
 <div th:fragment="userDetails">
+    <script src="https://cdn.datatables.net/r/dt/dt-1.10.8/datatables.js"></script>
     <script th:src="@{/resources/js/userDetails/userDetails.js}"></script>
     <meta name="_csrf" th:value="${_csrf.token}"/>
     <meta name="_csrf_header" th:value="${_csrf.headerName}"/>
-    <div id="ajax-content">Details :</div>
+    Details : ...
+    <div id="ajax-content-datatable"></div>
+    <table id="ajax-content" border="1">
+        <tr>
+            <th>Username</th>
+            <th>Application version</th>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.coumtri.appDirect;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
@@ -10,7 +11,7 @@ import java.security.Principal;
  * Created by Julien on 2015-08-14.
  */
 
-@Controller
+@RestController
 public class AppDirectController {
 
     @RequestMapping(value = "/subscription/create/notification", method = RequestMethod.GET)
