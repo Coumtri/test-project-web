@@ -23,6 +23,8 @@ Remote debugging
 -----------------
 mvnDebug clean tomcat7:run-war
 
+source : http://stackoverflow.com/questions/22229088/intellij-idea-13-debugger-dont-stop-on-breakpoint-in-java-for-maven-project
+
 Cloud execution
 ----------------
 https://powerful-temple-3764.herokuapp.com/

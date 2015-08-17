@@ -2,10 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
-    <script th:src="@{/resources/js/userDetails/userDetails.js}"></script>
 </head>
 <body>
 <!-- Source : http://www.designchemical.com/blog/index.php/jquery/simple-tabs-with-ajax-and-jquery/ -->
-<div id="ajax-content">Details :</div>
+<div th:fragment="userDetails">
+    <script th:src="@{/resources/js/userDetails/userDetails.js}"></script>
+    <meta name="_csrf" th:value="${_csrf.token}"/>
+    <meta name="_csrf_header" th:value="${_csrf.headerName}"/>
+    <div id="ajax-content">Details :</div>
+</div>
 </body>
 </html>

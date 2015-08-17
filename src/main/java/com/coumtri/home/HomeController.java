@@ -28,8 +28,8 @@ public class HomeController {
 	 * Source : http://www.mkyong.com/spring-mvc/spring-3-mvc-and-json-example/
 	 * @return the details of the users allowed to access the application
 	 */
-	@RequestMapping(value = "/showUserDetails", method = RequestMethod.GET)
-	@ResponseBody
+	@RequestMapping(value = "/showUserDetails", method = RequestMethod.POST)
+	//@ResponseBody
 	public List<UserInformation> ajaxUserDetails() {
 		return userService.showUserDetails();
 	}
