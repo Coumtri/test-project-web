@@ -56,6 +56,7 @@ public class UserService implements IUserService {
 	
 	public void signin(Account account) {
 		SecurityContextHolder.getContext().setAuthentication(authenticate(account));
+		accountRepository.save(account);
 	}
 	
 	private Authentication authenticate(Account account) {

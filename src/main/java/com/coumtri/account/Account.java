@@ -2,6 +2,7 @@ package com.coumtri.account;
 
 import javax.persistence.*;
 
+import com.coumtri.home.form.ApplicationVersion;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 @SuppressWarnings("serial")
@@ -14,6 +15,9 @@ public class Account implements java.io.Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
+
+	@Column(name = "EXTERNAL_ID", nullable = true)
+	private String externalIdentifier;
 
 	@Column(unique = true)
 	private String email;
@@ -29,14 +33,22 @@ public class Account implements java.io.Serializable {
     protected Account() {
 
 	}
-	
 	public Account(String email, String password, String role) {
 		this.email = email;
 		this.password = password;
 		this.role = role;
 	}
 
-	public Long getId() {
+    public Account(String email, String appDirectId, ApplicationVersion applicationVersion) {
+        this.email = email;
+        this.password = "password";
+        this.externalIdentifier = appDirectId;
+        Application application = new Application(this);
+        application.setVersion(applicationVersion);
+        this.setApplication(application);
+    }
+
+    public Long getId() {
 		return id;
 	}
 
@@ -70,5 +82,13 @@ public class Account implements java.io.Serializable {
 
 	public void setApplication(Application application) {
 		this.application = application;
+	}
+
+	public String getExternalIdentifier() {
+		return externalIdentifier;
+	}
+
+	public void setExternalIdentifier(String externalIdentifier) {
+		this.externalIdentifier = externalIdentifier;
 	}
 }

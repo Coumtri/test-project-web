@@ -2,6 +2,7 @@ package com.coumtri.config;
 
 import com.coumtri.Application;
 import com.coumtri.account.UserService;
+import com.coumtri.signpost.SignpostService;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,14 +18,19 @@ import org.springframework.stereotype.Controller;
 class ApplicationConfig {
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	 public PasswordEncoder passwordEncoder() {
 		return new StandardPasswordEncoder();
+	}
+
+	@Bean
+	public SignpostService signpostService() {
+		return new SignpostService();
 	}
 	
 	@Bean
 	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
 		PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
-		ppc.setLocation(new ClassPathResource("/persistence.properties"));
+		ppc.setLocations(new ClassPathResource("/persistence.properties"), new ClassPathResource("/appdirect.properties"));
 		return ppc;
 	}
 	
