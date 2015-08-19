@@ -16,4 +16,8 @@
 	</root>
 
 	<logger name="com.coumtri" level="ALL" />
+
+	<logger name="com.github.isrsal.logging.LoggingFilter">
+		<level value="DEBUG"/>
+	</logger>
 </configuration>

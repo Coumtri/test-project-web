@@ -3,15 +3,23 @@ package com.coumtri.config;
 import static org.springframework.context.annotation.ComponentScan.Filter;
 
 import com.coumtri.Application;
+import com.fasterxml.jackson.databind.ser.std.StringSerializer;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
+import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
+import org.springframework.oxm.jaxb.Jaxb1Marshaller;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +42,7 @@ import java.util.List;
 @Configuration
 @ComponentScan(basePackageClasses = Application.class, includeFilters = @Filter(Controller.class), useDefaultFilters = false)
 class WebMvcConfig extends WebMvcConfigurationSupport {
+    protected static final Logger log = LoggerFactory.getLogger(WebMvcConfig.class);
 
     private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
     private static final String VIEWS = "/WEB-INF/views/";
@@ -94,14 +103,59 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
     }
+    // http://stackoverflow.com/questions/18650336/adding-jaxb2-message-converter-in-spring-breaks-jackson2-json-mapping
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(converter());
+    @Bean
+    public MappingJackson2HttpMessageConverter jsonConverter() {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(jacksonMapper());
+        return converter;
     }
 
     @Bean
-    public MappingJackson2HttpMessageConverter converter() {
+    public Jaxb2RootElementHttpMessageConverter jaxbConverter() {
+        return new Jaxb2RootElementHttpMessageConverter();
+    }
+
+
+
+    // Source : http://stackoverflow.com/questions/7197268/spring-mvc-httpmediatypenotacceptableexception
+    /*@Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        //converters.add(converterXml());
+        //converters.add(converterJson());
+        // http
+        HttpMessageConverter converter = new StringHttpMessageConverter();
+        converters.add(converter);
+        log.info("HttpMessageConverter added");
+
+        // string
+        converter = new FormHttpMessageConverter();
+        converters.add(converter);
+        log.info("FormHttpMessageConverter added");
+
+        // json
+        converter = new MappingJackson2HttpMessageConverter();
+        converters.add(converter);
+        log.info("MappingJackson2HttpMessageConverter added");
+
+        // xml
+        org.springframework.http.converter.xml.MarshallingHttpMessageConverter xmlConverter = new MarshallingHttpMessageConverter(new org.springframework.oxm.jaxb.Jaxb2Marshaller());
+        converters.add(xmlConverter);
+        log.info("MarshallingHttpMessageConverter added");
+    }*/
+
+    // Source : http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/remoting.html#rest-message-conversion
+    //          http://springinpractice.com/2012/02/22/supporting-xml-and-json-web-service-endpoints-in-spring-3-1-using-responsebody/
+    @Bean MarshallingHttpMessageConverter converterXml() {
+        MarshallingHttpMessageConverter converter = new MarshallingHttpMessageConverter();
+        converter.setMarshaller(new Jaxb1Marshaller());
+        converter.setUnmarshaller(new Jaxb1Marshaller());
+        return converter;
+    }
+
+    @Bean
+    public MappingJackson2HttpMessageConverter converterJson() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setObjectMapper(jacksonMapper());
         return converter;

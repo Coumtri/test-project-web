@@ -6,10 +6,12 @@ package com.coumtri.home.form;
 public class UserInformation {
     private String username;
     private ApplicationVersion version;
+    private boolean assigned;
 
-    public UserInformation(String username, ApplicationVersion version) {
+    public UserInformation(String username, ApplicationVersion version, boolean assigned) {
         this.username = username;
         this.version = version;
+        this.assigned = assigned;
     }
 
     public String getUsername() {
@@ -26,5 +28,13 @@ public class UserInformation {
 
     public void setVersion(ApplicationVersion version) {
         this.version = version;
+    }
+
+    public boolean isAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
     }
 }

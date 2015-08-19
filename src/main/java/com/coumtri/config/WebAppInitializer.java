@@ -33,8 +33,9 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         characterEncodingFilter.setForceEncoding(true);
 
         DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
-
-        return new Filter[] {characterEncodingFilter, securityFilterChain};
+        // Source : http://stackoverflow.com/questions/4726824/how-to-log-http-request-body-in-spring-mvc
+        com.github.isrsal.logging.LoggingFilter loggingFilter = new com.github.isrsal.logging.LoggingFilter();
+        return new Filter[] {characterEncodingFilter, securityFilterChain, loggingFilter};
     }
 
     @Override

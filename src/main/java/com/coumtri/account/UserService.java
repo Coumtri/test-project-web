@@ -54,9 +54,9 @@ public class UserService implements IUserService {
 		return createUser(account);
 	}
 	
-	public void signin(Account account) {
+	public Long signin(Account account) {
 		SecurityContextHolder.getContext().setAuthentication(authenticate(account));
-		accountRepository.save(account);
+		return accountRepository.save(account).getId();
 	}
 	
 	private Authentication authenticate(Account account) {
@@ -75,8 +75,68 @@ public class UserService implements IUserService {
 		List<UserInformation> users = new ArrayList<UserInformation>();
 		List<Account> accounts = accountRepository.findAll();
 		for (Account account : accounts) {
-			users.add(new UserInformation(account.getEmail(), account.getApplication().getVersion()));
+			users.add(new UserInformation(account.getEmail(), account.getApplication().getVersion(), account.getApplication().isAssigned()));
 		}
 		return users;
 	}
+
+    @javax.transaction.Transactional
+    @Override
+    public Account changeApplicationVersion(String accountIdentifier, ApplicationVersion applicationVersion) {
+        Account account = findAccount(accountIdentifier);
+        account.getApplication().setVersion(applicationVersion);
+        return account;
+    }
+
+    @javax.transaction.Transactional
+    @Override
+    public Long removeAccount(String accountIdentifier) {
+        accountRepository.delete(Long.valueOf(accountIdentifier));
+        return Long.valueOf(accountIdentifier);
+    }
+
+    @javax.transaction.Transactional
+    @Override
+    public Long suspendAccount(String accountIdentifier) {
+        Account account = findAccount(accountIdentifier);
+        account.getApplication().setSuspended(true);
+        return Long.valueOf(accountIdentifier);
+    }
+
+    @javax.transaction.Transactional
+    @Override
+    public Long unsuspendAccount(String accountIdentifier) {
+        Account account = findAccount(accountIdentifier);
+        account.getApplication().setSuspended(false);
+        return Long.valueOf(accountIdentifier);
+    }
+
+    @javax.transaction.Transactional
+    @Override
+    public Long addIncomingInvoice(String accountIdentifier) {
+        Account account = findAccount(accountIdentifier);
+        account.getApplication().setIncomingInvoice(true);
+        return Long.valueOf(accountIdentifier);
+    }
+
+    @javax.transaction.Transactional
+    @Override
+    public Long removeIncomingInvoice(String accountIdentifier) {
+        Account account = findAccount(accountIdentifier);
+        account.getApplication().setIncomingInvoice(false);
+        return Long.valueOf(accountIdentifier);
+    }
+
+    @javax.transaction.Transactional
+    @Override
+    public Long changeAssignment(String accountIdentifier, boolean newAssignementValue) {
+        Account account = findAccount(accountIdentifier);
+        account.getApplication().setAssigned(newAssignementValue);
+        return Long.valueOf(accountIdentifier);
+    }
+
+    @Override
+    public Account findAccount(String accountIdentifier) {
+        return accountRepository.findOne(Long.valueOf(accountIdentifier));
+    }
 }

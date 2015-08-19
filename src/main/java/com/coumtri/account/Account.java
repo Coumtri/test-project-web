@@ -39,9 +39,13 @@ public class Account implements java.io.Serializable {
 		this.role = role;
 	}
 
+	public Account(String email, Long accountIdentifier, String appDirectId, ApplicationVersion applicationVersion) {
+		this(email, appDirectId, applicationVersion);
+        this.setId(accountIdentifier);
+	}
+
     public Account(String email, String appDirectId, ApplicationVersion applicationVersion) {
-        this.email = email;
-        this.password = "password";
+		this(email, "password", "ROLE_USER");
         this.externalIdentifier = appDirectId;
         Application application = new Application(this);
         application.setVersion(applicationVersion);
@@ -51,6 +55,10 @@ public class Account implements java.io.Serializable {
     public Long getId() {
 		return id;
 	}
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
 		return email;

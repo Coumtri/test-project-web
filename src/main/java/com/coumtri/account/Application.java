@@ -18,6 +18,15 @@ public class Application implements java.io.Serializable {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "APPLICATION_SUSPENDED", nullable = true)
+    private boolean suspended;
+
+    @Column(name = "APPLICATION_ASSIGNED", nullable = false)
+    private boolean assigned;
+
+    @Column(name = "INCOMING_INVOICE", nullable = true)
+    private boolean incomingInvoice;
+
     @OneToOne(fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Account account;
@@ -88,5 +97,29 @@ public class Application implements java.io.Serializable {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+    }
+
+    public boolean isIncomingInvoice() {
+        return incomingInvoice;
+    }
+
+    public void setIncomingInvoice(boolean incomingInvoice) {
+        this.incomingInvoice = incomingInvoice;
+    }
+
+    public boolean isAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
     }
 }

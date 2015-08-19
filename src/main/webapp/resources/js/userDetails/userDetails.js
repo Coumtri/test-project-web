@@ -21,7 +21,7 @@ function doAjaxPost() {
                     //$("#ajax-content").empty();
                     var resultAjax = "";
                     $.each(data, function(i, item) {
-                        resultAjax += "<tr><td>"+item.username+"</td><td>"+item.version+"</td></tr>";
+                        resultAjax += "<tr><td>"+item.username+"</td><td>"+item.version+"</td><td>"+item.assigned+"</td></tr>";
                         console.log(resultAjax);
                     });
                     $("#ajax-content").append(resultAjax);
@@ -32,17 +32,5 @@ function doAjaxPost() {
         });
 };
 
-// Source : http://stackoverflow.com/questions/907634/is-this-how-you-define-a-function-in-jquery
-var extractTable = function(responseParam)
-{
-        var response = $.parseJSON(responseParam);
-        $.each($response, function(i, item) {
-            var $tr = $('<tr>').append(
-                $('<td>').text(item.username),
-                $('<td>').text(item.version)
-            ); //.appendTo('#records_table');
-            console.log($tr.wrap('<p>').html());
-        });
-};
 
 
