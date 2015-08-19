@@ -5,13 +5,15 @@ Web project source :
 ---------------------
 https://github.com/kolorobot/spring-mvc-quickstart-archetype
 
-Installation + war
+Installation + WAR generation
 -------------------
 
 ```bash
     git clone https://github.com/Coumtri/test-project-web.git
     mvn clean package
 ```
+* war name : \target\projet-test-web-1.0.0-SNAPSHOT.war
+
 
 Run the project
 ----------------
