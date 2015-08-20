@@ -104,7 +104,6 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
     }
     // http://stackoverflow.com/questions/18650336/adding-jaxb2-message-converter-in-spring-breaks-jackson2-json-mapping
-
     @Bean
     public MappingJackson2HttpMessageConverter jsonConverter() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -116,52 +115,6 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
     public Jaxb2RootElementHttpMessageConverter jaxbConverter() {
         return new Jaxb2RootElementHttpMessageConverter();
     }
-
-
-
-    // Source : http://stackoverflow.com/questions/7197268/spring-mvc-httpmediatypenotacceptableexception
-    /*@Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        //converters.add(converterXml());
-        //converters.add(converterJson());
-        // http
-        HttpMessageConverter converter = new StringHttpMessageConverter();
-        converters.add(converter);
-        log.info("HttpMessageConverter added");
-
-        // string
-        converter = new FormHttpMessageConverter();
-        converters.add(converter);
-        log.info("FormHttpMessageConverter added");
-
-        // json
-        converter = new MappingJackson2HttpMessageConverter();
-        converters.add(converter);
-        log.info("MappingJackson2HttpMessageConverter added");
-
-        // xml
-        org.springframework.http.converter.xml.MarshallingHttpMessageConverter xmlConverter = new MarshallingHttpMessageConverter(new org.springframework.oxm.jaxb.Jaxb2Marshaller());
-        converters.add(xmlConverter);
-        log.info("MarshallingHttpMessageConverter added");
-    }*/
-
-    // Source : http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/remoting.html#rest-message-conversion
-    //          http://springinpractice.com/2012/02/22/supporting-xml-and-json-web-service-endpoints-in-spring-3-1-using-responsebody/
-    @Bean MarshallingHttpMessageConverter converterXml() {
-        MarshallingHttpMessageConverter converter = new MarshallingHttpMessageConverter();
-        converter.setMarshaller(new Jaxb1Marshaller());
-        converter.setUnmarshaller(new Jaxb1Marshaller());
-        return converter;
-    }
-
-    @Bean
-    public MappingJackson2HttpMessageConverter converterJson() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(jacksonMapper());
-        return converter;
-    }
-
-
     @Bean
     public com.fasterxml.jackson.databind.ObjectMapper jacksonMapper() {
         return new com.fasterxml.jackson.databind.ObjectMapper();

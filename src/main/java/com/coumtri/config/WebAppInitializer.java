@@ -44,14 +44,4 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         registration.setInitParameter("spring.profiles.active", "default");
     }
 
-    // Source : http://stackoverflow.com/questions/18047539/how-can-implement-abstractannotationconfigdispatcherservletinitializer-for-java
-    /*@Override
-    public void onStartup(ServletContext servletContext)
-            throws ServletException {
-        XmlWebApplicationContext root = new XmlWebApplicationContext();
-        root.setConfigLocation("/WEB-INF/application-context.xml");
-        servletContext.addListener(new ContextLoaderListener(root));
-        //super.onStartup(servletContext);
-    }*/
-
 }

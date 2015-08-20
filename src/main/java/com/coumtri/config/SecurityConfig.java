@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 @Configuration
@@ -32,30 +34,31 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .eraseCredentials(true)
-            .userDetailsService(userService())
-            .passwordEncoder(passwordEncoder);
+                .eraseCredentials(true)
+                .userDetailsService(userService())
+                .passwordEncoder(passwordEncoder);
     }
 
+    // Open id configuration source : http://stackoverflow.com/questions/21231057/how-to-configure-spring-4-0-with-spring-boot-and-spring-security-openid
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/showUserDetails", "/subscription/**", "/user/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/showUserDetails", "/subscription/**", "/user/**", "/appdirect/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-            .formLogin()
+                .formLogin()
                 .loginPage("/signin")
                 .permitAll()
                 .failureUrl("/signin?error=1")
                 .loginProcessingUrl("/authenticate")
                 .and()
-            .logout()
+                .logout()
                 .logoutUrl("/logout")
                 .permitAll()
                 .logoutSuccessUrl("/signin?logout")
                 .and()
-            .rememberMe()
+                .rememberMe()
                 .rememberMeServices(rememberMeServices())
                 .key("remember-me-key");
     }
